@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 반복문 처리 th:each  ,, state 통해 index, count 속성 이용 가능 -->
+    <ul>
+<!--        <li th:each="dto : ${list}">-->
+<!--            [[${dto}]]-->
+<!--        </li>-->
+        <li th:each="dto, state : ${list}">
+            [[${state.index}]] --- [[${dto}]]
+        </li>
+    </ul>
+
+<!-- th:if - 제어문 처리 - sno 값이 5의 배수들만 출력 -->
+    <ul>
+        <li th:each="dto, state : ${list}" th:if="${dto.sno % 5 == 0}">
+            [[${dto}]]
+        </li>
+    </ul>
+
+<!-- th:unless - 제어문 처리 - if else -->
+    <ul>
+        <li th:each="dto, state : ${list}">
+            <span th:if="${dto.sno % 5 == 0}"  th:text="${'-----------------'+dto.sno}"></span>
+            <span th:unless="${dto.sno % 5 == 0}"  th:text="${dto.first}"></span>
+        </li>
+    </ul>
+
+<!-- 3항 연산자  -->
+    <ul>
+        <li th:each = "dto, state : ${list}" th:text="${dto.sno % 5 == 0} ? ${dto.sno}"></li>
+    </ul>
+
+    <ul>
+        <li th:each = "dto, state : ${list}" th:text="${dto.sno % 5 == 0} ? ${dto.sno} : ${dto.first}"></li>
+    </ul>
+
+<!-- th:class - class 지정 - 특정한 상황에만 css 적용하기 -->
+<style>
+    .target{
+        background-color:red;
+    }
+</style>
+    <ul>
+        <li th:each = "dto, state : ${list}" th:class="${dto.sno % 5 == 0} ? 'target'" th:text="${dto}"></li>
+    </ul>
+
+<!-- th:block - 별도의 태그가 필요 없음, but 실제 화면에서 html 로 처리되지 않음 - 루프 등을 별도로 처리하는 용도로 주로 사용됨-->
+    <ul>
+        <th:block th:each="dto: ${list}">
+            <li th:text="${dto.sno % 5 == 0}?${dto.sno}:${dto.first}"></li>
+        </th:block>
+    </ul>
+</body>
+</html>
